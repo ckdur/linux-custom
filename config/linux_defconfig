@@ -139,7 +139,7 @@ CONFIG_CHECKPOINT_RESTORE=y
 # CONFIG_SYSFS_DEPRECATED is not set
 # CONFIG_RELAY is not set
 CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE="/home/ckdur/Documents/linux-custom/buildroot/output/images/rootfs.cpio.gz"
+CONFIG_INITRAMFS_SOURCE="../buildroot/output/images/rootfs.cpio.gz"
 # CONFIG_INITRAMFS_FORCE is not set
 CONFIG_INITRAMFS_ROOT_UID=0
 CONFIG_INITRAMFS_ROOT_GID=0
