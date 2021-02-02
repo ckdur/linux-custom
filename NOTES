@@ -1,0 +1,48 @@
+- The external toolchain cannot have multilib enabled. Buildroot does not supports it.
+- The toolchain needs to have the linux headers in version 5.0.x... for some reason.
+- That means, that maybe is not possible to compile further versions of the kernel beyond 5.0.x?
+- ARCH and CROSS_COMPILE works on all repos except buildroot.
+- You need to create the cpio and the cpio.gz for initram. This is exclusive for hardware-based runs.
+- You can get some different machine names with: qemu-system-riscv64 -machine help
+- If you use "sifive_u", the OpenSBI changes the platform name totally with a custom text. "SiFive HiFive Unleashed A00"
+- Another in the dts, will show whatever is in the compatible of the global context. "freechips,rocketchip-unknown" for example in the fpga.
+- Definitelly sets something in the "model" and the "compatible".
+- Dump the DTB from the QEMU using "-machine dumpdtb=dtb.dtb" at the end of whatever
+- Convert from binary to the text using dtc: "dtc -I dtb -O dts -o dts.dts dtb.dtb"
+- You can ignore the "choosen", I think. It only includes this: (Maybe this is a way to force the serial)
+	chosen {
+		bootargs = [00];
+		stdout-path = "/soc/serial@10010000";
+	};
+- Order of the printk events:
+  - Show the linux version
+  - "fdt: No chosen node found, continuing without"
+  - "fdt: Ignoring memory range 0x%llx - 0x%llx"
+  - "efi: UEFI not found."
+  - "Zone ranges:"
+  - The pages in "mm/page_alloc.c" (free_area_init/zone_sizes_init)
+  - "Movable zone start for each node"
+  - "Early memory node ranges"
+  - The early memory. "mm/page_alloc.c" (free_area_init/zone_sizes_init)
+  - "%s zone: %lu pages used for memmap" (free_area_init_core)             <----- Is a little different
+  - "%s zone: %lu pages, LIFO batch:%u"
+  - "SBI specification v%lu.%lu detected" "arch/riscv/kernel/sbi.c:572"
+  - "SBI implementation ID=0x%lx Version=0x%lx" "arch/riscv/kernel/sbi.c:576"
+  - "SBI v0.2 TIME extension detected"
+  - "SBI v0.2 IPI extension detected"
+  - "SBI v0.2 RFENCE extension detected"
+  - "software IO TLB: mapped [mem %pa-%pa] (%luMB)"
+  - "SBI v0.2 HSM extension detected"
+  - "riscv: ISA extensions %s" "arch/riscv/kernel/cpufeature.c:139"
+  - "riscv: ELF capabilities %s" 
+  - "percpu: Embedded %zu pages/cpu s%zu r%zu d%zu u%zu"
+  - "%spcpu-alloc: s%zu r%zu d%zu u%zu alloc=%zu*%zu"                     < This is different
+  - "\n" (mm/percpu.c:2331)
+  - "%spcpu-alloc: "
+  - A bunch of those that I do not understand. Those are triggered by "setup_per_cpu_areas" in the init main.c.
+  - "Built %u zonelists, mobility grouping %s.  Total pages: %ld"
+  - "Kernel command line: %s"
+- At this point, neither "saved_command_line" nor "command_line" nor "boot_command_line" are assigned from kernel compilation.
+- It seems that is necessary to do the "chosen" dtb.
+- To recompile FSBL with a DTB, use:
+  make bin ADD_OPTS=-DDEVICE_TREE=\'\"/home/ckdur/Documents/linux-custom/test.dtb\"\'
