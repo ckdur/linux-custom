@@ -1,0 +1,46 @@
+diff --git a/conf/linux64-defconfig b/conf/linux64-defconfig
+index c205076..cf6cfa5 100644
+--- a/conf/linux64-defconfig
++++ b/conf/linux64-defconfig
+@@ -127,7 +127,8 @@ CONFIG_CHECKPOINT_RESTORE=y
+ # CONFIG_SYSFS_DEPRECATED is not set
+ # CONFIG_RELAY is not set
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_INITRAMFS_SOURCE=""
++CONFIG_INITRAMFS_SOURCE="../buildroot.build/images/rootfs.cpio.gz"
++CONFIG_PCIE_XDMA_PL=y
+ CONFIG_RD_GZIP=y
+ CONFIG_RD_BZIP2=y
+ CONFIG_RD_LZMA=y
+diff --git a/conf/linux64-sifive-defconfig b/conf/linux64-sifive-defconfig
+index d9631b2..3410505 100644
+--- a/conf/linux64-sifive-defconfig
++++ b/conf/linux64-sifive-defconfig
+@@ -12,6 +12,14 @@ CONFIG_NAMESPACES=y
+ CONFIG_USER_NS=y
+ CONFIG_CHECKPOINT_RESTORE=y
+ CONFIG_BLK_DEV_INITRD=y
++CONFIG_INITRAMFS_SOURCE="../buildroot.build/images/rootfs.cpio.gz"
++CONFIG_RD_GZIP=y
++CONFIG_RD_BZIP2=y
++CONFIG_RD_LZMA=y
++CONFIG_RD_XZ=y
++CONFIG_RD_LZO=y
++CONFIG_RD_LZ4=y
++CONFIG_PCIE_XDMA_PL=y
+ CONFIG_EXPERT=y
+ CONFIG_BPF_SYSCALL=y
+ CONFIG_SOC_SIFIVE=y
+diff --git a/conf/qemu_riscv64_virt_defconfig b/conf/qemu_riscv64_virt_defconfig
+index b656d41..8197e74 100644
+--- a/conf/qemu_riscv64_virt_defconfig
++++ b/conf/qemu_riscv64_virt_defconfig
+@@ -28,6 +28,8 @@ BR2_TARGET_GENERIC_ROOT_PASSWD="sifive"
+ # Filesystem
+ BR2_TARGET_ROOTFS_EXT2=y
+ BR2_ROOTFS_OVERLAY=""
++BR2_TARGET_ROOTFS_CPIO=y
++BR2_TARGET_ROOTFS_CPIO_GZIP=y
+ 
+ # Linux headers same as kernel, a 5.1 series
+ BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_1=y
