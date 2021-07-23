@@ -10,5 +10,5 @@ if [ ! -f "$LINUX_IMAGE" ]; then
   echo "$LINUX_IMAGE does not exists. Please run_linux.sh."
   exit 1
 fi
-make -C opensbi PLATFORM=generic FW_PAYLOAD_PATH=$LINUX_IMAGE
+make -C opensbi PLATFORM=ratona FW_PAYLOAD_PATH=$LINUX_IMAGE
 
